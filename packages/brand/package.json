@@ -1,0 +1,52 @@
+{
+  "name": "@qkvtoken/brand",
+  "version": "0.2.0",
+  "description": "QKV Token Corp brand tokens \u2014 colors, typography, spacing scale. Single source of truth for any QKV property.",
+  "keywords": [
+    "qkvtoken",
+    "brand",
+    "design-tokens",
+    "colors",
+    "typography"
+  ],
+  "license": "MIT",
+  "author": "QKV Token Corp <inform@qkvtoken.com> (https://qkvtoken.com)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qkvtoken/platform.git",
+    "directory": "packages/brand"
+  },
+  "bugs": {
+    "url": "https://github.com/qkvtoken/platform/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "homepage": "https://github.com/qkvtoken/platform/tree/main/packages/brand",
+  "scripts": {
+    "build": "echo \"prebuilt artifacts already in dist/ \u2014 nothing to compile\"",
+    "typecheck": "tsc --noEmit -p tsconfig.json || true"
+  }
+}

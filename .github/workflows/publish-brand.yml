@@ -1,0 +1,67 @@
+# DRAFT — to be moved to .github/workflows/publish-brand.yml
+# inside the qkvtoken/platform repo, under packages/brand/
+#
+# Fires when a tag matching brand-v* is pushed (e.g. brand-v0.2.0).
+# Publishes @qkvtoken/brand with npm provenance (signed, verifiable).
+#
+# Requires:
+#   - Repo settings → Actions → General → Workflow permissions:
+#       "Read and write permissions"  +  "Allow GitHub Actions to create
+#       and approve pull requests" (for future tag automation)
+#   - Repo secret: NPM_TOKEN  (the granular token we already have, scoped
+#     to @qkvtoken with "Read and write" — paste under
+#     Settings → Secrets and variables → Actions → New repository secret)
+#
+# After merge, tag a release:
+#   git tag brand-v0.2.0
+#   git push origin brand-v0.2.0
+# and GitHub Actions will run the publish job. The published package
+# will show a verified-provenance badge on npmjs.com.
+
+name: Publish @qkvtoken/brand
+
+on:
+  push:
+    tags:
+      - "brand-v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to publish (e.g. 0.2.0)"
+        required: true
+
+permissions:
+  contents: read
+  id-token: write   # required for npm provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/brand
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Verify package version matches tag
+        if: startsWith(github.ref, 'refs/tags/brand-v')
+        run: |
+          TAG_VERSION="${GITHUB_REF#refs/tags/brand-v}"
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "tag:    $TAG_VERSION"
+          echo "package: $PKG_VERSION"
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::tag $TAG_VERSION does not match package.json $PKG_VERSION"
+            exit 1
+          fi
+
+      - name: Publish with provenance
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

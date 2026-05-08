@@ -1,5 +1,6 @@
 packages:
   - "apps/*"
+  - "packages/*"
   - "examples/*"
 
 # Native-binary packages we trust to run install scripts.
