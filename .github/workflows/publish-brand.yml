@@ -61,7 +61,9 @@ jobs:
             exit 1
           fi
 
-      - name: Publish with provenance
+      - name: Publish with provenance (OIDC trusted publisher)
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        # No NODE_AUTH_TOKEN needed — npm CLI 11.5+ uses the OIDC id-token
+        # from GitHub Actions to authenticate against the Trusted Publisher
+        # configured at npmjs.com → @qkvtoken/brand → access → trusted publishers.
+        working-directory: packages/brand
