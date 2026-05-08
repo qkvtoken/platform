@@ -29,3 +29,7 @@ next-env.d.ts
 
 # docker volumes
 .postgres-data/
+
+# Whitelist prebuilt artifacts for @qkvtoken/brand (hand-written ES/CJS/types/CSS — no build step)
+!packages/brand/dist/
+!packages/brand/dist/**

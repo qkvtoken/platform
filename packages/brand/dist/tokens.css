@@ -1,0 +1,39 @@
+/*!
+ * @qkvtoken/brand — CSS custom properties
+ * Drop-in stylesheet for any QKV-owned web property.
+ * Import: @import "@qkvtoken/brand/tokens.css";
+ */
+
+:root {
+  /* Light theme defaults */
+  --qkv-color-navy: #0e2050;
+  --qkv-color-navy-deep: #07153a;
+  --qkv-color-navy-soft: #1c3380;
+
+  --qkv-color-token: #ffcd1a;
+  --qkv-color-token-soft: #ffe27a;
+
+  --qkv-color-ink: #0c0c0c;
+  --qkv-color-paper: #fafaf7;
+  --qkv-color-paper-tint: #f3f2ec;
+  --qkv-color-rule: rgba(12, 12, 12, 0.12);
+
+  /* Typography */
+  --qkv-font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --qkv-font-serif: "Newsreader", "Iowan Old Style", "Source Serif Pro", Georgia, serif;
+  --qkv-font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Fluid spacing scale */
+  --qkv-space-xs: clamp(1.5rem, 1.5vw + 1rem, 2.5rem);
+  --qkv-space-s: clamp(2.5rem, 4vw + 1rem, 6rem);
+  --qkv-space-m: clamp(4rem, 6vw + 1rem, 9rem);
+  --qkv-space-l: clamp(6rem, 9vw + 1rem, 12rem);
+}
+
+[data-qkv-theme="inverted"] {
+  --qkv-color-paper: var(--qkv-color-navy);
+  --qkv-color-paper-tint: var(--qkv-color-navy-soft);
+  --qkv-color-ink: var(--qkv-color-token);
+  --qkv-color-ink-soft: var(--qkv-color-token-soft);
+  --qkv-color-rule: rgba(255, 205, 26, 0.18);
+}
