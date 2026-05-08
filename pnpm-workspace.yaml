@@ -1,0 +1,9 @@
+packages:
+  - "apps/*"
+  - "examples/*"
+
+# Native-binary packages we trust to run install scripts.
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
