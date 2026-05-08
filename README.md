@@ -1,5 +1,7 @@
 # QKV Engineering Monorepo
 
+**Source:** [github.com/qkvtoken/platform](https://github.com/qkvtoken/platform)
+
 The single home for everything we build at QKV: client demos, internal tools,
 reference solutions, and shared examples. New work lives in this repo unless
 there is a strong reason it shouldn't.
