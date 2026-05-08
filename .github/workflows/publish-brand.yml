@@ -1,23 +1,3 @@
-# DRAFT — to be moved to .github/workflows/publish-brand.yml
-# inside the qkvtoken/platform repo, under packages/brand/
-#
-# Fires when a tag matching brand-v* is pushed (e.g. brand-v0.2.0).
-# Publishes @qkvtoken/brand with npm provenance (signed, verifiable).
-#
-# Requires:
-#   - Repo settings → Actions → General → Workflow permissions:
-#       "Read and write permissions"  +  "Allow GitHub Actions to create
-#       and approve pull requests" (for future tag automation)
-#   - Repo secret: NPM_TOKEN  (the granular token we already have, scoped
-#     to @qkvtoken with "Read and write" — paste under
-#     Settings → Secrets and variables → Actions → New repository secret)
-#
-# After merge, tag a release:
-#   git tag brand-v0.2.0
-#   git push origin brand-v0.2.0
-# and GitHub Actions will run the publish job. The published package
-# will show a verified-provenance badge on npmjs.com.
-
 name: Publish @qkvtoken/brand
 
 on:
@@ -32,7 +12,7 @@ on:
 
 permissions:
   contents: read
-  id-token: write   # required for npm provenance
+  id-token: write   # required for npm provenance + OIDC trusted publisher auth
 
 jobs:
   publish:
@@ -49,6 +29,13 @@ jobs:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
+      - name: Upgrade npm to >= 11.5 (required for OIDC trusted publishers)
+        working-directory: ${{ github.workspace }}
+        run: |
+          npm install -g npm@latest
+          echo "npm version: $(npm --version)"
+          echo "node version: $(node --version)"
+
       - name: Verify package version matches tag
         if: startsWith(github.ref, 'refs/tags/brand-v')
         run: |
@@ -63,7 +50,6 @@ jobs:
 
       - name: Publish with provenance (OIDC trusted publisher)
         run: npm publish --provenance --access public
-        # No NODE_AUTH_TOKEN needed — npm CLI 11.5+ uses the OIDC id-token
-        # from GitHub Actions to authenticate against the Trusted Publisher
-        # configured at npmjs.com → @qkvtoken/brand → access → trusted publishers.
-        working-directory: packages/brand
+        # No NODE_AUTH_TOKEN — npm CLI 11.5+ detects the OIDC id-token from
+        # GitHub Actions and authenticates against the trusted publisher
+        # configured at npmjs.com -> @qkvtoken/brand -> access.
