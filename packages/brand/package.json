@@ -1,6 +1,6 @@
 {
   "name": "@qkvtoken/brand",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "QKV Token Corp brand tokens \u2014 colors, typography, spacing scale. Single source of truth for any QKV property.",
   "keywords": [
     "qkvtoken",
